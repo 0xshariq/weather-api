@@ -1,6 +1,6 @@
 import cron from "node-cron"
 import mongoose from "mongoose"
-import { ApiKey } from "../models/apikey.models.js"
+import User from "../models/user.js"
 import { connectToDatabase } from "../db/database.js"
 
 const CRON_SCHEDULE = process.env.CRON_SCHEDULE || "0 0 * * 0"
@@ -10,12 +10,12 @@ async function resetWeeklyRequestCounts() {
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
 
   try {
-    const result = await ApiKey.updateMany(
-      { lastWeeklyReset: { $lt: oneWeekAgo } },
+    const result = await User.updateMany(
+      { "apiKey.lastWeeklyReset": { $lt: oneWeekAgo } },
       {
         $set: {
-          requestCount: 0,
-          lastWeeklyReset: new Date(),
+          "apiKey.requestCount": 0,
+          "apiKey.lastWeeklyReset": new Date(),
         },
       },
     )
@@ -53,3 +53,4 @@ process.on("SIGINT", async () => {
 })
 
 export { resetWeeklyRequestCounts }
+

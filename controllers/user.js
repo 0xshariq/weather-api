@@ -1,79 +1,71 @@
-import bcrypt from "bcrypt"
-import User from "../models/user.js"
-import { ApiKey } from "../models/apikey.models.js"
-import ErrorHandler from "../middlewares/error.js"
-import { sendCookie } from "../utils/sendCookie.js"
-import generateApiKey from "../utils/generateApiKey.js"
+import bcrypt from "bcrypt";
+import User from "../models/user.js";
+import ErrorHandler from "../middlewares/error.js";
+import { sendCookie } from "../utils/sendCookie.js";
+import generateApiKey from "../utils/generateApiKey.js";
 
 export const createUser = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      return next(new ErrorHandler(400, "All fields are required"))
+      return next(new ErrorHandler(400, "All fields are required"));
     }
 
-    let user = await User.findOne({ email })
+    let user = await User.findOne({ email });
     if (user) {
-      return next(new ErrorHandler(400, "User already exists"))
+      return next(new ErrorHandler(400, "User already exists"));
     }
 
-    const salt = await bcrypt.genSalt(10)
-    const hashPassword = await bcrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
 
-    // Create user first
+    // Generate API key
+    const apiKeyString = generateApiKey();
+
+    // Create user with API key
     user = await User.create({
       name,
       email,
       password: hashPassword,
-    })
+      apiKey: {
+        key: apiKeyString,
+        requestCount: 0,
+        requestLimit: 1000,
+        active: true,
+      },
+    });
 
-    // Generate API key
-    const apiKeyString = generateApiKey()
-
-    // Create API Key document with user reference
-    const apiKey = await ApiKey.create({
-      key: apiKeyString,
-      owner: user._id,
-      requestCount: 0,
-      requestLimit: 1000,
-      active: true,
-    })
-
-    // Update user with reference to API Key
-    user.apiKey = apiKey._id
-    await user.save()
-
-    sendCookie(user, res, "User registered successfully", 201)
+    sendCookie(user, res, "User registered successfully", 201);
   } catch (error) {
-    console.error("Error during user registration:", error)
-    next(new ErrorHandler(500, "Error during registration"))
+    console.error("Error during user registration:", error);
+    next(new ErrorHandler(500, "Error during registration"));
   }
-}
+};
 
 export const loginUser = async (req, res, next) => {
   try {
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
     if (!email || !password) {
-      return next(new ErrorHandler(400, "Email and password are required"))
+      return next(new ErrorHandler(400, "Email and password are required"));
     }
 
-    const user = await User.findOne({ email }).select("+password")
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      return next(new ErrorHandler(404, "User not found"))
+      return next(new ErrorHandler(404, "User not found"));
     }
 
-    const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return next(new ErrorHandler(401, "Invalid email or password"))
+      return next(new ErrorHandler(401, "Invalid email or password"));
     }
 
-    sendCookie(user, res, "Login successful", 200)
+    sendCookie(user, res, "Login successful", 200);
   } catch (error) {
-    next(new ErrorHandler(500, "Internal server error during login"))
+    next(new ErrorHandler(500, "Internal server error during login"));
   }
-}
+};
 
 export const logoutUser = async (req, res, next) => {
   try {
@@ -85,15 +77,15 @@ export const logoutUser = async (req, res, next) => {
       .json({
         success: true,
         message: "Logout successful",
-      })
+      });
   } catch (error) {
-    next(new ErrorHandler(500, "Error during logout"))
+    next(new ErrorHandler(500, "Error during logout"));
   }
-}
+};
 
 export const userProfile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id).populate("apiKey")
+    const user = await User.findById(req.user._id).populate("apiKey");
     res.status(200).json({
       success: true,
       user: {
@@ -102,9 +94,8 @@ export const userProfile = async (req, res, next) => {
         email: user.email,
         apiKey: user.apiKey ? user.apiKey.key : null,
       },
-    })
+    });
   } catch (error) {
-    next(new ErrorHandler(500, "Error fetching user profile"))
+    next(new ErrorHandler(500, "Error fetching user profile"));
   }
-}
-
+};

@@ -20,10 +20,23 @@ const UserSchema = new mongoose.Schema(
       select: false,
     },
     apiKey: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ApiKey",
-      unique: true,
-      sparse: true,
+      key: {
+        type: String,
+        unique: true,
+        sparse: true,
+      },
+      requestCount: {
+        type: Number,
+        default: 0,
+      },
+      requestLimit: {
+        type: Number,
+        default: 1000,
+      },
+      active: {
+        type: Boolean,
+        default: true,
+      },
     },
   },
   { timestamps: true },

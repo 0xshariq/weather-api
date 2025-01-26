@@ -1,4 +1,3 @@
-import { ApiKey } from "../models/apikey.models.js"
 import User from "../models/user.js"
 
 export const apiKeyMiddleware = async (req, res, next) => {
@@ -10,13 +9,13 @@ export const apiKeyMiddleware = async (req, res, next) => {
     }
 
     // Find the user with the given API key
-    const user = await User.findOne({ apiKey: apiKey }).populate("apiKey")
+    const user = await User.findOne({ "apiKey.key": apiKey })
 
     if (!user || !user.apiKey) {
       return res.status(403).json({ message: "Invalid API key" })
     }
 
-    const keyData = user.apiKey
+    const { apiKey: keyData } = user
 
     if (!keyData.active) {
       return res.status(403).json({ message: "API key is inactive" })
@@ -27,9 +26,9 @@ export const apiKeyMiddleware = async (req, res, next) => {
     }
 
     // Increment the request count
-    await ApiKey.findByIdAndUpdate(keyData._id, { $inc: { requestCount: 1 } })
+    await User.findByIdAndUpdate(user._id, { $inc: { "apiKey.requestCount": 1 } })
 
-    // Attach the API key to the request object for potential use in route handlers
+    // Attach the API key and user to the request object for potential use in route handlers
     req.apiKey = apiKey
     req.user = user
 
