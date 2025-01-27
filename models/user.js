@@ -38,6 +38,10 @@ const UserSchema = new mongoose.Schema(
         default: true,
       },
     },
+    emailConfig: {
+      user: String,
+      pass: String,
+    },
   },
   { timestamps: true },
 )
