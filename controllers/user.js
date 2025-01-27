@@ -24,7 +24,7 @@ export const createUser = async (req, res, next) => {
     // Generate API key
     const apiKeyString = generateApiKey()
 
-    // Create user with API key and email configuration
+    // Create user with API key
     user = await User.create({
       name,
       email,
@@ -34,7 +34,7 @@ export const createUser = async (req, res, next) => {
         requestCount: 0,
         requestLimit: 1000,
         active: true,
-      }
+      },
     })
 
     // Send API key email
@@ -42,8 +42,7 @@ export const createUser = async (req, res, next) => {
       await sendApiKeyEmail(user._id, apiKeyString)
     } catch (emailError) {
       console.error("Error sending API key email:", emailError)
-      // Consider whether to fail the registration if email sending fails
-      // For now, we'll continue with the registration process
+      // Log the error but don't stop the registration process
     }
 
     sendCookie(user, res, "User registered successfully", 201)
@@ -76,8 +75,7 @@ export const loginUser = async (req, res, next) => {
       await sendApiKeyEmail(user._id, user.apiKey.key)
     } catch (emailError) {
       console.error("Error sending API key email:", emailError)
-      // Consider whether to fail the login if email sending fails
-      // For now, we'll continue with the login process
+      // Log the error but don't stop the login process
     }
 
     sendCookie(user, res, "Login successful", 200)
@@ -101,21 +99,3 @@ export const logoutUser = async (req, res, next) => {
     next(new ErrorHandler(500, "Error during logout"))
   }
 }
-
-export const userProfile = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user._id)
-    res.status(200).json({
-      success: true,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        apiKey: user.apiKey ? user.apiKey.key : null,
-      },
-    })
-  } catch (error) {
-    next(new ErrorHandler(500, "Error fetching user profile"))
-  }
-}
-
