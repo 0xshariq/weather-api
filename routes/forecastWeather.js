@@ -8,7 +8,7 @@ const router = express.Router()
 router.use(apiKeyMiddleware)
 
 // Route to get forecast weather for a city for a specific number of days
-router.get("/:cityName/days/:day", getCityForecastWeather)
+router.get("/", getCityForecastWeather)
 
 export default router
 

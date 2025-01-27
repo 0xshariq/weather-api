@@ -8,7 +8,7 @@ const router = express.Router()
 router.use(apiKeyMiddleware)
 
 // Route to get current weather for a city
-router.get("/:cityName", getCityCurrentWeather)
+router.get("/", getCityCurrentWeather)
 
 export default router
 
