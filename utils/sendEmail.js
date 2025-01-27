@@ -1,27 +1,26 @@
 import nodemailer from "nodemailer"
 import dotenv from "dotenv"
-import User from "../models/user.js"
 
 dotenv.config()
 
 export const sendApiKeyEmail = async (userId, apiKey) => {
   try {
     const user = await User.findById(userId)
-    if (!user || !user.emailConfig.user || !user.emailConfig.pass) {
-      throw new Error("User email configuration not found")
+    if (!user || !user.email) {
+      throw new Error("User email not found")
     }
 
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
       auth: {
-        user: user.emailConfig.user,
-        pass: user.emailConfig.pass,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     })
 
     const mailOptions = {
-      from: user.emailConfig.user,
+      from: process.env.EMAIL_FROM,
       to: user.email,
       subject: "Your API Key",
       text: `Your API key is: ${apiKey}. Please keep this key secure and do not share it with others.`,

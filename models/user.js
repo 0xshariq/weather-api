@@ -37,11 +37,7 @@ const UserSchema = new mongoose.Schema(
         type: Boolean,
         default: true,
       },
-    },
-    emailConfig: {
-      user: String,
-      pass: String,
-    },
+    }
   },
   { timestamps: true },
 )
