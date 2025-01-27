@@ -25,12 +25,7 @@ async function connectToDatabase() {
     }
 
     // Connect to MongoDB
-    await mongoose.connect(mongoUri,{
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      ssl: true,
-      sslValidate: true,
-    });
+    await mongoose.connect(mongoUri);
     
     const db = mongoose.connection;
 
