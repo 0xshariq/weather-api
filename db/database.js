@@ -23,9 +23,15 @@ async function connectToDatabase() {
     if (!mongoUri) {
       throw new Error('MONGODB_URI environment variable is not defined');
     }
-
+    const options = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      family: 4, // Use IPv4, skip trying IPv6
+    }
     // Connect to MongoDB
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, options);
     
     const db = mongoose.connection;
 
