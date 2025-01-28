@@ -36,7 +36,7 @@ app.use("/api/v1/forecast", apiKeyMiddleware, forecastWeatherRouter)
 
 // Root route
 app.get("/", (req, res) => {
-  res.send("Weather API Server")
+  res.sendFile("index.html", { root: "./" })
 })
 
 
