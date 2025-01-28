@@ -24,6 +24,8 @@ async function connectToDatabase() {
       throw new Error('MONGODB_URI environment variable is not defined');
     }
     const options = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       family: 4,
