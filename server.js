@@ -30,9 +30,9 @@ app.use(
 app.use(errorMiddleware)
 
 // Routes
-app.use("/api/v1/users", userRouter)
-app.use("/api/v1/current", apiKeyMiddleware, currentWeatherRouter)
-app.use("/api/v1/forecast", apiKeyMiddleware, forecastWeatherRouter)
+app.use("/api/v2/users", userRouter)
+app.use("/api/v2/current", apiKeyMiddleware, currentWeatherRouter)
+app.use("/api/v2/forecast", apiKeyMiddleware, forecastWeatherRouter)
 
 // Root route
 app.get("/", (req, res) => {
