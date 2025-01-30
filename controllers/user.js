@@ -7,7 +7,7 @@ import { sendApiKeyEmail } from "../utils/sendEmail.js"
 
 export const createUser = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body ||req.query;
+    const { name, email, password } = req.body
 
     if (!name || !email || !password) {
       return next(new ErrorHandler(400, "All fields are required"))
@@ -54,7 +54,7 @@ export const createUser = async (req, res, next) => {
 
 export const loginUser = async (req, res, next) => {
   try {
-    const { email, password } = req.body ||req.query;
+    const { email, password } = req.body
 
     if (!email || !password) {
       return next(new ErrorHandler(400, "Email and password are required"))
@@ -89,7 +89,8 @@ export const logoutUser = async (req, res, next) => {
     res
       .clearCookie("token", {
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        secure: process.env.NODE_ENV === "production" ? true : false,
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
       })
       .json({
         success: true,
@@ -99,3 +100,4 @@ export const logoutUser = async (req, res, next) => {
     next(new ErrorHandler(500, "Error during logout"))
   }
 }
+
