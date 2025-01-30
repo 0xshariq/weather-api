@@ -7,7 +7,7 @@ import { sendApiKeyEmail } from "../utils/sendEmail.js"
 
 export const createUser = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password } = req.body ||req.query;
 
     if (!name || !email || !password) {
       return next(new ErrorHandler(400, "All fields are required"))
@@ -54,7 +54,7 @@ export const createUser = async (req, res, next) => {
 
 export const loginUser = async (req, res, next) => {
   try {
-    const { email, password } = req.body
+    const { email, password } = req.body ||req.query;
 
     if (!email || !password) {
       return next(new ErrorHandler(400, "Email and password are required"))
