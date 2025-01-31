@@ -1,122 +1,110 @@
 # Weather API Documentation
 
 ## Overview
-The Weather API provides real-time weather data and forecast information, along with user management features. Authentication is handled via API keys for weather data and cookies for user accounts.
+This Weather API provides current weather and forecast data, along with user management features. The API requires authentication via an API key for weather data and uses cookie-based authentication for user management.
 
 ## Base URL
 ```
 https://weather-api-7qxy.onrender.com/api/v2
 ```
+Replace `weather-api-7qxy.onrender.com` with the actual domain where your API is hosted.
 
 ## Authentication
 
 ### User Authentication
-User authentication is cookie-based. Users must register and log in to receive an authentication cookie.
+- Users must register and log in to receive an authentication cookie.
+- The authentication cookie is required for user management operations.
 
 ### API Key Authentication
-Weather data endpoints require an API key, which can be included in requests:
-- **Header**: `x-api-key: YOUR_API_KEY`
-- **Query**: `?key=YOUR_API_KEY`
+- Weather data endpoints require an API key.
+- The API key should be included in the request header or as a query parameter.
+
+Example:
+```
+Header: x-api-key: YOUR_API_KEY
+Query: ?key=YOUR_API_KEY
+```
 
 ## Endpoints
 
 ### User Management
 
 #### Register a New User
-- **URL**: `/users/register`
-- **Method**: `POST`
-- **Body**:
+**POST** `/users/register`
+
+**Request Body:**
 ```json
 {
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "securepassword"
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "securepassword"
 }
 ```
-- **Response**:
-  - **Code**: 201
-  - **Content**:
-  ```json
-  { "message": "User registered successfully" }
-  ```
+
+**Success Response:**
+- **Code:** 201
+- **Content:** `{ "message": "User registered successfully" }`
 
 #### Login
-- **URL**: `/users/login`
-- **Method**: `POST`
-- **Body**:
+**POST** `/users/login`
+
+**Request Body:**
 ```json
 {
-  "email": "john@example.com",
-  "password": "securepassword"
+    "email": "john@example.com",
+    "password": "securepassword"
 }
 ```
-- **Response**:
-  - **Code**: 200
-  - **Content**:
-  ```json
-  { "message": "Login successful" }
-  ```
+
+**Success Response:**
+- **Code:** 200
+- **Content:** `{ "message": "Login successful" }`
 
 #### Logout
-- **URL**: `/users/logout`
-- **Method**: `GET`
-- **Response**:
-  - **Code**: 200
-  - **Content**:
-  ```json
-  { "message": "Logout successful" }
-  ```
+**GET** `/users/logout`
+
+**Success Response:**
+- **Code:** 200
+- **Content:** `{ "message": "Logout successful" }`
 
 ### Weather Data
 
 #### Get Current Weather
-- **URL**: `/current`
-- **Method**: `GET`
-- **Query Parameters**:
-  - `city` (required): Name of the city
-  - `key` (required): API key
-- **Response**:
-  - **Code**: 200
-  - **Content**: JSON object with current weather data
+**GET** `/current`
+
+**Query Parameters:**
+- `city` (required): Name of the city
+- `key` (required if not in header): Your API key
+
+**Success Response:**
+- **Code:** 200
+- **Content:** JSON object with current weather data
 
 #### Get Weather Forecast
-- **URL**: `/forecast`
-- **Method**: `GET`
-- **Query Parameters**:
-  - `city` (required): Name of the city
-  - `days` (optional): Number of days (default: 5)
-  - `key` (required): API key
-- **Response**:
-  - **Code**: 200
-  - **Content**: JSON object with weather forecast data
+**GET** `/forecast`
 
-## Error Handling
+**Query Parameters:**
+- `city` (required): Name of the city
+- `days` (optional): Number of days for forecast (default: 5)
+- `key` (required if not in header): Your API key
 
-| Code | Description |
-|------|-------------|
-| 200  | OK |
-| 201  | Created |
-| 400  | Bad Request |
-| 401  | Unauthorized |
-| 403  | Forbidden |
-| 404  | Not Found |
-| 429  | Too Many Requests |
-| 500  | Internal Server Error |
+**Success Response:**
+- **Code:** 200
+- **Content:** JSON object with weather forecast data
 
-Error responses contain a JSON object with a `message` field describing the issue.
+## Example Usage
+To get the current weather for London:
+```
+curl -X GET "https://weather-api-7qxy.onrender.com/api/v2/current?city=London&key=YOUR_API_KEY"
+```
 
-## Rate Limiting
-Requests are limited to **1000 requests per week per API key**.
+To register a new user:
+```
+curl -X POST "https://weather-api-7qxy.onrender.com/api/v2/users/register" \
+     -H "Content-Type: application/json" \
+     -d '{"name": "John Doe", "email": "john@example.com", "password": "securepassword"}'
+```
 
-## CORS Support
-CORS is enabled for:
-- `http://localhost:3000`
-- `https://weather-api-7qxy.onrender.com/`
-- Additional origins defined by the `FRONTEND_URL` environment variable
-
-## Notes
-- All timestamps follow the **ISO 8601** format.
-- All requests must be made over **HTTPS**.
-- Keep your API key secure.
-- For support, contact our team.
+## License
+This API is provided as-is without any warranty. Usage is subject to applicable terms and conditions.
 
