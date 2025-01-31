@@ -11,8 +11,21 @@
             --background-color: #f4f6f8;
             --text-color: #333;
             --code-background: #e8eaed;
+            --card-background: #ffffff;
+            --border-color: #ddd;
             --animation-duration: 0.3s;
         }
+
+        [data-theme="dark"] {
+            --primary-color: #61dafb;
+            --secondary-color: #bb86fc;
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --code-background: #1e1e1e;
+            --card-background: #1f1f1f;
+            --border-color: #333;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -20,119 +33,142 @@
             background-color: var(--background-color);
             margin: 0;
             padding: 0;
-            transition: background-color var(--animation-duration) ease;
+            transition: background-color var(--animation-duration) ease, color var(--animation-duration) ease;
         }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: var(--card-background);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: box-shadow var(--animation-duration) ease;
+            transition: background-color var(--animation-duration) ease, box-shadow var(--animation-duration) ease;
         }
+
         .container:hover {
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
         }
+
         h1, h2, h3, h4 {
             color: var(--secondary-color);
             margin-top: 1.5em;
             transition: color var(--animation-duration) ease;
         }
+
         h1 {
             font-size: 2.5em;
             border-bottom: 2px solid var(--primary-color);
             padding-bottom: 10px;
             text-align: center;
         }
+
         h2 {
             font-size: 1.8em;
         }
+
         h3 {
             font-size: 1.3em;
         }
+
         h4 {
             font-size: 1.1em;
         }
+
         code {
             background-color: var(--code-background);
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 3px;
             padding: 2px 5px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.9em;
-            transition: background-color var(--animation-duration) ease;
+            transition: background-color var(--animation-duration) ease, border-color var(--animation-duration) ease;
         }
+
         pre {
             background-color: var(--code-background);
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 5px;
             padding: 15px;
             overflow-x: auto;
             font-size: 0.9em;
             transition: all var(--animation-duration) ease;
         }
+
         pre:hover {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
+
         table {
             border-collapse: collapse;
             width: 100%;
             margin: 20px 0;
             transition: all var(--animation-duration) ease;
         }
+
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             padding: 12px;
             text-align: left;
-            transition: background-color var(--animation-duration) ease;
+            transition: background-color var(--animation-duration) ease, border-color var(--animation-duration) ease;
         }
+
         th {
             background-color: var(--primary-color);
-            color: white;
+            color: var(--card-background);
         }
+
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: rgba(0, 0, 0, 0.05);
         }
+
         tr:hover {
-            background-color: #e6e6e6;
+            background-color: rgba(0, 0, 0, 0.1);
         }
+
         ul {
             padding-left: 20px;
         }
+
         .endpoint {
-            background-color: #f9f9f9;
+            background-color: rgba(0, 0, 0, 0.05);
             border-left: 4px solid var(--primary-color);
             padding: 15px;
             margin-bottom: 20px;
             transition: all var(--animation-duration) ease;
         }
+
         .endpoint:hover {
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             transform: translateX(5px);
         }
+
         .method {
             font-weight: bold;
             color: var(--primary-color);
         }
+
         .url {
             font-style: italic;
         }
+
         .sample-response {
-            background-color: #f0f8ff;
-            border: 1px solid #b0d4ff;
+            background-color: var(--code-background);
+            border: 1px solid var(--border-color);
             border-radius: 5px;
             padding: 15px;
             margin-top: 10px;
             overflow-x: auto;
             transition: all var(--animation-duration) ease;
         }
+
         .sample-response:hover {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .collapsible {
-            background-color: #f1f1f1;
-            color: #444;
+            background-color: rgba(0, 0, 0, 0.1);
+            color: var(--text-color);
             cursor: pointer;
             padding: 18px;
             width: 100%;
@@ -142,16 +178,36 @@
             font-size: 15px;
             transition: 0.4s;
         }
+
         .active, .collapsible:hover {
-            background-color: #ccc;
+            background-color: rgba(0, 0, 0, 0.2);
         }
+
         .content {
             padding: 0 18px;
             display: none;
             overflow: hidden;
-            background-color: #f9f9f9;
+            background-color: var(--card-background);
             transition: max-height 0.2s ease-out;
         }
+
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--card-background);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color var(--animation-duration) ease;
+        }
+
+        #theme-toggle:hover {
+            background-color: var(--secondary-color);
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -162,17 +218,25 @@
             h2 {
                 font-size: 1.5em;
             }
+            #theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+            }
         }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
         .fade-in {
             animation: fadeIn 1s ease-in;
         }
     </style>
 </head>
 <body>
+    <button id="theme-toggle">Toggle Theme</button>
     <div class="container fade-in">
         <h1>Weather API Documentation</h1>
 
@@ -522,6 +586,13 @@
                 }
             });
         }
+
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+        });
     </script>
 </body>
 </html>
