@@ -95,7 +95,7 @@ Query: ?key=YOUR_API_KEY
 ## Example Usage
 To get the current weather for London:
 ```
-curl -X GET "https://weather-api-7qxy.onrender.com/api/v2/current?city=London&key=YOUR_API_KEY"
+curl -X GET "https://weather-api-7qxy.onrender.com/api/v2/current?key=YOUR_API_KEY&city=London"
 ```
 
 To register a new user:
