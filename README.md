@@ -7,7 +7,6 @@ This Weather API provides current weather and forecast data, along with user man
 ```
 https://weather-api-7qxy.onrender.com/api/v2
 ```
-Replace `weather-api-7qxy.onrender.com` with the actual domain where your API is hosted.
 
 ## Authentication
 
