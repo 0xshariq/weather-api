@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #2c3e50;
+      }
+      code {
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 2px 5px;
+        font-family: monospace;
+      }
+      pre {
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 10px;
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Weather API Documentation</h1>
+
+    <h2>Overview</h2>
+    <p>
+      This Weather API provides current weather and forecast data, along with
+      user management features. It uses API key authentication for weather data
+      access and cookie-based authentication for user management.
+    </p>
+
+    <h2>Base URL</h2>
+    <pre><code>https://weather-api-7qxy.onrender.com/api/v2</code></pre>
+    <p>
+      Replace <code>weather-api-7qxy.onrender.com</code> with the actual domain
+      where your API is hosted.
+    </p>
+
+    <h2>Authentication</h2>
+    <h3>User Authentication</h3>
+    <p>
+      User authentication is handled via cookies. Users need to register and
+      login to receive an authentication cookie.
+    </p>
+
+    <h3>API Key Authentication</h3>
+    <p>
+      Weather data endpoints require an API key. The API key should be included
+      in the request header or as a query parameter.
+    </p>
+    <p>Header: <code>x-api-key: YOUR_API_KEY</code></p>
+    <p>Query: <code>?key=YOUR_API_KEY</code></p>
+
+    <h2>Endpoints</h2>
+
+    <h3>User Management</h3>
+
+    <h4>Register a new user</h4>
+    <ul>
+      <li><strong>URL</strong>: <code>/users/register</code></li>
+      <li><strong>Method</strong>: <code>POST</code></li>
+      <li>
+        <strong>Body</strong>:
+        <pre>
+            <code>
+                {
+                "name": "John Doe",
+                "email": "john@example.com",
+                "password": "securepassword"
+                }
+            </code>
+        </pre>
+      </li>
+      <li>
+        <strong>Success Response</strong>:
+        <ul>
+          <li><strong>Code</strong>: 201</li>
+          <li>
+            <strong>Content</strong>:
+            <code>{ "message": "User registered successfully" }</code>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Login</h4>
+    <ul>
+      <li><strong>URL</strong>: <code>/users/login</code></li>
+      <li><strong>Method</strong>: <code>POST</code></li>
+      <li>
+        <strong>Body</strong>:
+        <pre>
+            <code>
+            {
+            "email": "john@example.com",
+            "password": "securepassword"
+            }
+            </code>
+        </pre>
+      </li>
+      <li>
+        <strong>Success Response</strong>:
+        <ul>
+          <li><strong>Code</strong>: 200</li>
+          <li>
+            <strong>Content</strong>:
+            <code>{ "message": "Login successful" }</code>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Logout</h4>
+    <ul>
+      <li><strong>URL</strong>: <code>/users/logout</code></li>
+      <li><strong>Method</strong>: <code>GET</code></li>
+      <li>
+        <strong>Success Response</strong>:
+        <ul>
+          <li><strong>Code</strong>: 200</li>
+          <li>
+            <strong>Content</strong>:
+            <code>{ "message": "Logout successful" }</code>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Weather Data</h3>
+
+    <h4>Get Current Weather</h4>
+    <ul>
+      <li><strong>URL</strong>: <code>/current</code></li>
+      <li><strong>Method</strong>: <code>GET</code></li>
+      <li>
+        <strong>Query Parameters</strong>:
+        <ul>
+          <li><code>city</code> (required): Name of the city</li>
+          <li><code>key</code> (required): Your API key</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Success Response</strong>:
+        <ul>
+          <li><strong>Code</strong>: 200</li>
+          <li>
+            <strong>Content</strong>: JSON object with current weather data
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Get Weather Forecast</h4>
+    <ul>
+      <li><strong>URL</strong>: <code>/forecast</code></li>
+      <li><strong>Method</strong>: <code>GET</code></li>
+      <li>
+        <strong>Query Parameters</strong>:
+        <ul>
+          <li><code>city</code> (required): Name of the city</li>
+          <li>
+            <code>days</code> (optional): Number of days for forecast (default:
+            5)
+          </li>
+          <li><code>key</code> (required if not in header): Your API key</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Success Response</strong>:
+        <ul>
+          <li><strong>Code</strong>: 200</li>
+          <li>
+            <strong>Content</strong>: JSON object with weather forecast data
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Error Handling</h2>
+    <p>
+      The API uses standard HTTP response codes to indicate the success or
+      failure of requests.
+    </p>
+    <table>
+      <tr>
+        <th>Code</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>200</td>
+        <td>OK</td>
+      </tr>
+      <tr>
+        <td>201</td>
+        <td>Created</td>
+      </tr>
+      <tr>
+        <td>400</td>
+        <td>Bad Request</td>
+      </tr>
+      <tr>
+        <td>401</td>
+        <td>Unauthorized</td>
+      </tr>
+      <tr>
+        <td>403</td>
+        <td>Forbidden</td>
+      </tr>
+      <tr>
+        <td>404</td>
+        <td>Not Found</td>
+      </tr>
+      <tr>
+        <td>429</td>
+        <td>Too Many Requests</td>
+      </tr>
+      <tr>
+        <td>500</td>
+        <td>Internal Server Error</td>
+      </tr>
+    </table>
+    <p>
+      Error responses will include a JSON object with a
+      <code>message</code> field describing the error.
+    </p>
+
+    <h2>Rate Limiting</h2>
+    <p>
+      API requests are subject to rate limiting based on the API key. The
+      current limit is 1000 requests per week per API key.
+    </p>
+
+    <h2>CORS</h2>
+    <p>The API supports CORS for the following origins:</p>
+    <ul>
+      <li>http://localhost:3000</li>
+      <li>https://weather-api-7qxy.onrender.com/</li>
+      <li>
+        An additional origin specified by the FRONTEND_URL environment variable
+      </li>
+    </ul>
+
+    <h2>Notes</h2>
+    <ul>
+      <li>All timestamps are returned in ISO 8601 format.</li>
+      <li>The API uses HTTPS for all requests to ensure data security.</li>
+      <li>Keep your API key confidential and secure.</li>
+      <li>For any issues or support, please contact our support team.</li>
+    </ul>
+  </body>
+</html>
