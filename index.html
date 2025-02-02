@@ -6,17 +6,6 @@
     <title>Weather API Documentation</title>
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --background-color: #f4f6f8;
-            --text-color: #333;
-            --code-background: #e8eaed;
-            --card-background: #ffffff;
-            --border-color: #ddd;
-            --animation-duration: 0.3s;
-        }
-
-        [data-theme="dark"] {
             --primary-color: #61dafb;
             --secondary-color: #bb86fc;
             --background-color: #121212;
@@ -33,7 +22,6 @@
             background-color: var(--background-color);
             margin: 0;
             padding: 0;
-            transition: background-color var(--animation-duration) ease, color var(--animation-duration) ease;
         }
 
         .container {
@@ -42,7 +30,6 @@
             padding: 20px;
             background-color: var(--card-background);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: background-color var(--animation-duration) ease, box-shadow var(--animation-duration) ease;
         }
 
         .container:hover {
@@ -52,7 +39,6 @@
         h1, h2, h3, h4 {
             color: var(--secondary-color);
             margin-top: 1.5em;
-            transition: color var(--animation-duration) ease;
         }
 
         h1 {
@@ -81,7 +67,6 @@
             padding: 2px 5px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.9em;
-            transition: background-color var(--animation-duration) ease, border-color var(--animation-duration) ease;
         }
 
         pre {
@@ -91,7 +76,6 @@
             padding: 15px;
             overflow-x: auto;
             font-size: 0.9em;
-            transition: all var(--animation-duration) ease;
         }
 
         pre:hover {
@@ -103,14 +87,12 @@
             border-collapse: collapse;
             width: 100%;
             margin: 20px 0;
-            transition: all var(--animation-duration) ease;
         }
 
         th, td {
             border: 1px solid var(--border-color);
             padding: 12px;
             text-align: left;
-            transition: background-color var(--animation-duration) ease, border-color var(--animation-duration) ease;
         }
 
         th {
@@ -119,11 +101,11 @@
         }
 
         tr:nth-child(even) {
-            background-color: rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         tr:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         ul {
@@ -131,11 +113,10 @@
         }
 
         .endpoint {
-            background-color: rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.05);
             border-left: 4px solid var(--primary-color);
             padding: 15px;
             margin-bottom: 20px;
-            transition: all var(--animation-duration) ease;
         }
 
         .endpoint:hover {
@@ -159,7 +140,6 @@
             padding: 15px;
             margin-top: 10px;
             overflow-x: auto;
-            transition: all var(--animation-duration) ease;
         }
 
         .sample-response:hover {
@@ -167,7 +147,7 @@
         }
 
         .collapsible {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
             color: var(--text-color);
             cursor: pointer;
             padding: 18px;
@@ -176,11 +156,10 @@
             text-align: left;
             outline: none;
             font-size: 15px;
-            transition: 0.4s;
         }
 
         .active, .collapsible:hover {
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .content {
@@ -188,24 +167,6 @@
             display: none;
             overflow: hidden;
             background-color: var(--card-background);
-            transition: max-height 0.2s ease-out;
-        }
-
-        #theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: var(--primary-color);
-            color: var(--card-background);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color var(--animation-duration) ease;
-        }
-
-        #theme-toggle:hover {
-            background-color: var(--secondary-color);
         }
 
         @media (max-width: 768px) {
@@ -217,11 +178,6 @@
             }
             h2 {
                 font-size: 1.5em;
-            }
-            #theme-toggle {
-                top: 10px;
-                right: 10px;
-                padding: 5px 10px;
             }
         }
 
@@ -236,7 +192,6 @@
     </style>
 </head>
 <body>
-    <button id="theme-toggle">Toggle Theme</button>
     <div class="container fade-in">
         <h1>Weather API Documentation</h1>
 
@@ -245,7 +200,6 @@
 
         <h2>Base URL</h2>
         <pre><code>https://weather-api-7qxy.onrender.com/api/v2</code></pre>
-        <p>Replace <code>weather-api-7qxy.onrender.com</code> with the actual domain where your API is hosted.</p>
 
         <h2>Authentication</h2>
         <h3>User Authentication</h3>
@@ -586,13 +540,6 @@
                 }
             });
         }
-
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        themeToggle.addEventListener('click', () => {
-            body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
-        });
     </script>
 </body>
 </html>
