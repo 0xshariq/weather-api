@@ -8,7 +8,6 @@ import { apiKeyMiddleware } from "./middlewares/apiKeyMiddleware.js"
 import cookieParser from "cookie-parser"
 import { errorMiddleware } from "./middlewares/error.js"
 import cors from "cors"
-import { resetWeeklyRequestCounts } from "./controllers/resetRequestCount.js"
 
 // Load environment variables
 dotenv.config({ path: "./config.env" })
@@ -50,8 +49,6 @@ const startServer = async () => {
       console.log(`Server is running on port ${PORT}`)
     })
 
-    // Schedule cron job for resetting request counts
-    resetWeeklyRequestCounts()
   } catch (error) {
     console.error("Failed to start server:", error)
     // Implement appropriate error handling here
@@ -61,15 +58,4 @@ const startServer = async () => {
 }
 
 startServer()
-
-// Handle graceful shutdown
-process.on("SIGINT", async () => {
-  try {
-    console.log("Shutting down gracefully...")
-    process.exit(0)
-  } catch (error) {
-    console.error("Error during shutdown:", error)
-    process.exit(1)
-  }
-})
 
